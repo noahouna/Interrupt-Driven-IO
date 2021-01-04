@@ -1,4 +1,5 @@
 .ORIG x800
+
     ; (1) Initialize interrupt vector table.
     LD R0, VEC
     LD R1, ISR
@@ -34,7 +35,7 @@ PC      .FILL x3000
 
 .ORIG x3000
 
-START	
+START ; User program to print numbers	
 
     AND R0, R0, #0	; initialization
 	AND R1, R0, #0
@@ -45,15 +46,7 @@ START
 	AND R6, R0, #0
 	AND R7, R0, #0
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Initialize the stack pointer;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    LEA R6, START      ; initialize stack pointer to x2FFF            
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Start of user program to print numbers;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    LEA R6, START      ; initialize stack pointer to x2FFF           
 
 
 ; Put the ASCII values into memory
@@ -98,6 +91,7 @@ DELAY
 	
 
 HALT
+
 ;;;;;;;;;;;;;
 ;;Constants;;
 ;;;;;;;;;;;;;
@@ -124,6 +118,8 @@ VECT    .FILL x0180
 .END
 
 .ORIG x2000
+
+; Start of interrupt program to print whatever key was pressed by user to console
 
     ADD R6, R6, #-1     ; Save registers from user program onto stack
     STR R0, R6, #0
